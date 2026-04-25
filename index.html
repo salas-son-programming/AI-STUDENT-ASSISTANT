@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI STUDENT ASSISTANT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div id="container">
+        <div id="home"></div>
+    
+        <div id="boards">
+            <div id="boards_head"><i class="fa-solid fa-brain"></i> AI Study Assistant</div>
+            <div id="sub_boards">
+                <button id="newStudyBtn1"><i class="fa-solid fa-plus"></i> New Study</button>
+                <button><i class="fa-solid fa-timer"></i>History</button>
+            </div>
+        </div>
+
+
+        <div id="new_study" style="display: block;">
+            <h1>Hello, in <span>name of the new study</span></h1>
+            <div id="head">
+                <p>What do you want to learn?</p>
+                <button id="newStudyBtn2"><i class="fa-solid fa-plus"></i> New Study</button>
+            </div>
+            <div id="body">
+                <div id="body_fst_part">
+                    <div id="task">
+                        <p>Paste Text</p>
+                        <textarea name="" id="userInput"></textarea>
+                        <div id="bottom_of_task">
+                            <button id="analyse">Analyse</button>
+                            <button id="clear_textarea">Clear <i class="fa-solid fa-trash"></i></button>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                    <div id="action">
+                        <p>Choose an action</p>
+                        <div id="explain">
+                            <i class="fa-solid fa-book-open"></i>
+                            <div><p>Explain</p> <i class="fa-solid fa-angle-right"></i></div>
+                            <p>Get a simple explanation of the concept.</p>
+                        </div>
+                        <div id="summarize">
+                            <i class="fa-solid fa-book"></i>
+                            <div><p>Summarize</p> <i class="fa-solid fa-angle-right"></i></div>
+                            <p>Get a concise summary of the key points.</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="body_scond_part">
+                    <P>Recent Activity</P>
+                    <div id="activities"></div>
+                    <button>View all History <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="history" style="display: none;">
+            <h1>History</h1>
+            <div id="activities_2"></div>
+            <button><i class="fa-solid fa-trash"></i> Clear History</button>
+        </div>
+
+        <div id="analyze" style="display: none;">
+            <div id="analyse_btns">
+                <button><i class="fa-solid fa-book-open"></i>Explain</button>
+                <button><i class="fa-solid fa-book"></i>Summarize</button>
+            </div>
+
+            <div id="explanation">
+                <h1>Explanation</h1>
+                <div id="Api_result_explantion"></div>
+            </div>
+
+            <div id="summary">
+                <h1>Summary</h1>
+                <div id="Api_result_summarize"></div>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
