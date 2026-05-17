@@ -7,7 +7,7 @@
    code. Use a backend proxy or environment variable system.
    ============================================================= */
 
-const API_KEY = 'YOUR_API_KEY_HERE';
+const API_KEY = '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';
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 const MODEL   = 'gpt-4o-mini'; // cost-effective, fast
 
