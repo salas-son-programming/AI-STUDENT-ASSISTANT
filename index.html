@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyMind — AI Study Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div id="logo">
+      <div id="logo-mark">S</div>
+      <span>StudyMind</span>
+    </div>
+
+    <button id="new-session-btn" class="btn-primary">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      New Session
+    </button>
+
+    <nav id="sessions-nav">
+      <p class="nav-label">Recent Sessions</p>
+      <ul id="sessions-list">
+        <!-- populated by JS -->
+      </ul>
+    </nav>
+
+    <div id="sidebar-footer">
+      <button id="clear-history-btn" class="btn-ghost danger">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 3h11M4 3V2h5v1M2 3l.7 8.1A1 1 0 0 0 3.7 12h5.6a1 1 0 0 0 1-.9L11 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Clear All History
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main id="main">
+
+    <!-- MOBILE HEADER -->
+    <header id="mobile-header">
+      <button id="mobile-menu-btn" aria-label="Open menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <span id="mobile-logo">StudyMind</span>
+      <button id="mobile-new-btn" aria-label="New session">
+        <svg width="18" height="18" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+
+    <!-- HOME VIEW -->
+    <section id="view-home" class="view active">
+      <div id="home-content">
+        <div id="home-hero">
+          <div id="hero-badge">Powered by OpenAI</div>
+          <h1 id="hero-title">What are you<br/><em>studying today?</em></h1>
+          <p id="hero-sub">Paste text or upload a PDF. Get explanations, summaries, and ask follow-up questions instantly.</p>
+        </div>
+
+        <div id="input-card">
+          <div id="input-tabs">
+            <button class="tab-btn active" data-tab="text">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3h10M2 7h7M2 11h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              Paste Text
+            </button>
+            <button class="tab-btn" data-tab="pdf">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M8 1H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5L8 1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 1v4h4" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              Upload PDF
+            </button>
+          </div>
+
+          <div id="tab-text" class="tab-panel active">
+            <div id="session-name-row">
+              <input type="text" id="session-name-input" placeholder="Session name (optional)" maxlength="60" />
+            </div>
+            <textarea id="user-input" placeholder="Paste your notes, a paragraph, a definition — anything you want to understand better…" rows="7" spellcheck="true"></textarea>
+            <div id="char-count"><span id="char-num">0</span> characters</div>
+          </div>
+
+          <div id="tab-pdf" class="tab-panel">
+            <div id="pdf-drop-zone" role="button" tabindex="0" aria-label="Upload PDF">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8L14 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2v6h6M12 12v6M9 15l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <p>Drop your PDF here</p>
+              <span>or <label for="pdf-input" id="pdf-browse">browse files</label></span>
+              <input type="file" id="pdf-input" accept=".pdf" hidden />
+            </div>
+            <div id="pdf-info" style="display:none">
+              <svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M8 1H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5L8 1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 1v4h4" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              <span id="pdf-name"></span>
+              <button id="pdf-remove">×</button>
+            </div>
+          </div>
+
+          <div id="action-row">
+            <button class="action-btn" id="btn-explain" data-action="explain">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 5v.5M7.5 7.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Explain
+            </button>
+            <button class="action-btn" id="btn-summarize" data-action="summarize">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 4h11M2 7.5h8M2 11h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Summarize
+            </button>
+            <button class="action-btn" id="btn-keyconcepts" data-action="keyconcepts">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 3.5l2 2-2 2M6 7.5h7M2 10.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Key Concepts
+            </button>
+          </div>
+        </div>
+
+        <div id="recent-sessions">
+          <p class="section-label">Recent Sessions</p>
+          <div id="recent-cards">
+            <!-- populated by JS -->
+          </div>
+          <div id="no-sessions-msg">No sessions yet. Start studying above.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT VIEW -->
+    <section id="view-result" class="view">
+      <div id="result-header">
+        <button id="back-btn" class="btn-ghost">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div id="result-meta">
+          <span id="result-session-name"></span>
+          <span id="result-action-badge"></span>
+        </div>
+        <button id="copy-btn" class="btn-ghost" title="Copy result">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="5" y="5" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.4"/><path d="M3 9H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Copy
+        </button>
+      </div>
+
+      <div id="result-body">
+        <div id="result-source">
+          <p class="result-source-label">Source text</p>
+          <div id="result-source-text"></div>
+        </div>
+
+        <div id="result-output">
+          <div id="result-output-content"></div>
+        </div>
+      </div>
+
+      <!-- FOLLOW-UP CHAT -->
+      <div id="followup-section">
+        <p class="section-label">Ask a follow-up question</p>
+        <div id="chat-thread" aria-live="polite"></div>
+        <div id="chat-input-row">
+          <input type="text" id="chat-input" placeholder="E.g. Can you give me an example? What does X mean?" />
+          <button id="chat-send-btn">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 2.5L7 9M13.5 2.5L9 14l-2-5-5-2 11.5-4.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- LOADING OVERLAY -->
+  <div id="loading-overlay" aria-hidden="true">
+    <div id="loading-card">
+      <div id="loading-spinner"></div>
+      <p id="loading-text">Analyzing your text…</p>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" role="alert" aria-live="assertive"></div>
+
+  <!-- MOBILE SIDEBAR OVERLAY -->
+  <div id="sidebar-overlay"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+  <script src="index.js"></script>
+</body>
+</html>
