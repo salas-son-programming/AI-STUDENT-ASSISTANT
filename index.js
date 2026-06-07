@@ -6,8 +6,7 @@
    WARNING: For production, never expose API keys in client-side
    code. Use a backend proxy or environment variable system.
    ============================================================= */
-
-const API_KEY = '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';
+const API_KEY = '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';
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 const MODEL   = 'gpt-4o-mini'; // cost-effective, fast
 
